@@ -1,2 +1,13 @@
-# credit-card-coding-test
-A small credit card system with two functions (1) add() and (2) get()
+## Credit Card Demo Application
+
+### Run Server
+```bash
+cd server
+mvn spring-boot:run
+```
+
+### Run Client
+```bash
+cd client
+
+```
