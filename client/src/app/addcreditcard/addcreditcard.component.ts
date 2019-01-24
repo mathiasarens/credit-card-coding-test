@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-addcreditcard',
@@ -6,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./addcreditcard.component.scss']
 })
 export class AddCreditCardComponent implements OnInit {
-
-  constructor() { }
+  addCreditCardForm = new FormGroup({
+    name: new FormControl(''),
+    number: new FormControl(''),
+    limit: new FormControl('')
+  });
+    constructor() {}
 
   ngOnInit() {
   }

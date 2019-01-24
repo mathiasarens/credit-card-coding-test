@@ -1,14 +1,20 @@
-<mat-card>
-  <mat-card-title>New Credit Card</mat-card-title>
-    <mat-form-field>
-      <input matInput placeholder="Name">
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Number">
-      </mat-form-field>
-
+<form [formGroup]="addCreditCardForm">
+  <mat-card>
+    <mat-card-title>New Credit Card</mat-card-title>
+    <div>
       <mat-form-field>
-          <input matInput placeholder="Limit">
-        </mat-form-field>
-</mat-card>
+        <input matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Number" formControlName="number">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Limit" formControlName="limit">
+      </mat-form-field>
+    </div>
+  </mat-card>
+</form>
