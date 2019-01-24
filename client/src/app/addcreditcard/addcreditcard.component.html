@@ -1,6 +1,8 @@
-<form [formGroup]="addCreditCardForm">
-  <mat-card>
-    <mat-card-title>New Credit Card</mat-card-title>
+<div class="container" fxLayout="column">
+  <form [formGroup]="addCreditCardForm" (ngSubmit)="onSubmit()">
+    <div>
+      <h1>New Credit Card</h1>
+    </div>
     <div>
       <mat-form-field>
         <input matInput placeholder="Name" formControlName="name">
@@ -16,5 +18,8 @@
         <input matInput placeholder="Limit" formControlName="limit">
       </mat-form-field>
     </div>
-  </mat-card>
-</form>
+    <div flex fxLayoutAlign="flex-end">
+      <button mat-raised-button color="primary">Add CreditCard</button>
+    </div>
+  </form>
+</div>

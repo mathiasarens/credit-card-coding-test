@@ -17,4 +17,15 @@ export class AddCreditCardComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        return;
+    }
+
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
+}
+
 }
