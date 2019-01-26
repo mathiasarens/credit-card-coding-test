@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddCreditCardComponent } from './addcreditcard.component';
+import { AddCreditCardComponent } from './add-credit-card.component';
 
 describe('AddcreditcardComponent', () => {
   let component: AddCreditCardComponent;
