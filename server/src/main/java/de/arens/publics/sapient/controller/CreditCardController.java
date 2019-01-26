@@ -13,7 +13,7 @@ import javax.validation.Valid;
 @RestController
 public class CreditCardController {
 
-    static final String CREDIT_CARD_URL = "/creditcard";
+    static final String CREDIT_CARD_URL = "/api/creditcard";
 
     @Resource
     private CreditCardRepository creditCardRepository;
