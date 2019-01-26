@@ -23,5 +23,5 @@ mvn spring-boot:run
 ### Run Client
 ```bash
 cd client
-ng serve --open
+ng serve —-proxy-config proxy.conf.json --open
 ```

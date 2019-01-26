@@ -13,12 +13,12 @@ import javax.validation.Valid;
 @RestController
 public class CreditCardController {
 
-    static final String CREDIT_CARD_URL = "/api/creditcard";
+    static final String CREDIT_CARD_URL = "/creditcard";
 
     @Resource
     private CreditCardRepository creditCardRepository;
 
-    @PostMapping(name = CREDIT_CARD_URL)
+    @PostMapping(CREDIT_CARD_URL)
     public ResponseEntity<?> add(@Valid @RequestBody final CreditCard creditCard) {
         if (creditCard.getId() != null) {
             return ResponseEntity.status(303).body(String.format("Please update credit card resource via %s/%d", CREDIT_CARD_URL,creditCard.getId()));

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -13,6 +14,7 @@ import { MatInputModule, MatButtonModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AddCreditCardService } from './addcreditcard/addcreditcard.service';
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule, // new modules added here
@@ -32,7 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatButtonModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AddCreditCardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

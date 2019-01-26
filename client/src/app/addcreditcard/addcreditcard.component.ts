@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import {AddCreditCardService} from './addcreditcard.service';
+import { CreditCard } from '../creditcard';
 
 @Component({
   selector: 'app-addcreditcard',
@@ -12,20 +14,16 @@ export class AddCreditCardComponent implements OnInit {
     number: new FormControl(''),
     limit: new FormControl('')
   });
-    constructor() {}
+  constructor(private addCreditCardService: AddCreditCardService) {}
 
   ngOnInit() {
   }
 
   onSubmit() {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-        return;
-    }
-
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
-}
+    this.addCreditCardService.addCreditCard(new CreditCard(this.addCreditCardForm.value))
+      .subscribe(resp => {
+          console.log(resp.body);
+      });
+  }
 
 }
