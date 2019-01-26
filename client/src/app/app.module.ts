@@ -10,7 +10,7 @@ import { AddCreditCardComponent } from './addcreditcard/addcreditcard.component'
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule, MatButtonModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatSnackBarModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +33,7 @@ import { AddCreditCardService } from './addcreditcard/addcreditcard.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
     ReactiveFormsModule
   ],
   providers: [AddCreditCardService],

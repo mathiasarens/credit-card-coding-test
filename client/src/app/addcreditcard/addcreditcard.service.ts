@@ -14,7 +14,8 @@ export class AddCreditCardService {
         return this.http.post(this.url, creditCard, {
             headers: new HttpHeaders({
                 'Content-Type':  'application/json'
-            }), observe: 'response'}).pipe(catchError(this.handleError));
+            }), observe: 'response'});
+            //.pipe(catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse) {
@@ -26,7 +27,7 @@ export class AddCreditCardService {
             // The response body may contain clues as to what went wrong,
             console.error(
               `Backend returned code ${error.status}, ` +
-              `body was: ${error.error}`);
+              `statusText was: ${error.statusText}`);
           }
           // return an observable with a user-facing error message
           return throwError('Something bad happened; please try again later.');

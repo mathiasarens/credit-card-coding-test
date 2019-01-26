@@ -1,7 +1,8 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {AddCreditCardService} from './addcreditcard.service';
+import { AddCreditCardService } from './addcreditcard.service';
 import { CreditCard } from '../creditcard';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-addcreditcard',
@@ -14,16 +15,26 @@ export class AddCreditCardComponent implements OnInit {
     number: new FormControl(''),
     limit: new FormControl('')
   });
-  constructor(private addCreditCardService: AddCreditCardService) {}
+  nameError = '';
+  constructor(private addCreditCardService: AddCreditCardService, private errorSnackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
     this.addCreditCardService.addCreditCard(new CreditCard(this.addCreditCardForm.value))
-      .subscribe(resp => {
-          console.log(resp.body);
-      });
+      .subscribe(
+        response => {
+          console.log('response', response.body);
+        },
+        httpErrorResponse => {
+          if (httpErrorResponse.error.error === 'apierror' && httpErrorResponse.error.subErrors.length > 0) {
+            console.error('error', httpErrorResponse);
+            this.addCreditCardForm.controls['name'].setErrors({ 'incorrect': true });
+          } else {
+            this.errorSnackBar.open('Communication error.', 'Try again', { duration: 2500 });
+            console.error('error', httpErrorResponse);
+          }
+        });
   }
-
 }

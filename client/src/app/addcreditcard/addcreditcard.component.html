@@ -6,6 +6,7 @@
     <div>
       <mat-form-field>
         <input matInput placeholder="Name" formControlName="name">
+        <mat-error *ngIf="addCreditCardForm.controls['name'].errors && !addCreditCardForm.controls['name'].pristine">{{this.nameError}}</mat-error>
       </mat-form-field>
     </div>
     <div>
