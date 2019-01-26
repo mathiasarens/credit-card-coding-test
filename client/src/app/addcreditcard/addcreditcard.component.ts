@@ -30,6 +30,9 @@ export class AddCreditCardComponent implements OnInit {
         httpErrorResponse => {
           if (httpErrorResponse.error.error === 'apierror' && httpErrorResponse.error.subErrors.length > 0) {
             console.error('error', httpErrorResponse);
+            for (let subError of httpErrorResponse.error.subErrors) {
+              
+            }
             this.addCreditCardForm.controls['name'].setErrors({ 'incorrect': true });
           } else {
             this.errorSnackBar.open('Communication error.', 'Try again', { duration: 2500 });
