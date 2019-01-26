@@ -2,9 +2,11 @@ package de.arens.publics.sapient.controller;
 
 import de.arens.publics.sapient.model.CreditCard;
 import de.arens.publics.sapient.repository.CreditCardRepository;
+import de.arens.publics.sapient.validaton.ordersequence.OrderSequence;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,7 +21,7 @@ public class CreditCardController {
     private CreditCardRepository creditCardRepository;
 
     @PostMapping(CREDIT_CARD_URL)
-    public ResponseEntity<?> add(@Valid @RequestBody final CreditCard creditCard) {
+    public ResponseEntity<?> add(@Validated(OrderSequence.class) @RequestBody final CreditCard creditCard) {
         if (creditCard.getId() != null) {
             return ResponseEntity.status(303).body(String.format("Please update credit card resource via %s/%d", CREDIT_CARD_URL,creditCard.getId()));
         }

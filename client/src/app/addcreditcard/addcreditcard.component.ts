@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddCreditCardService } from './addcreditcard.service';
 import { CreditCard } from '../creditcard';
 import { MatSnackBar } from '@angular/material';
@@ -11,9 +11,9 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AddCreditCardComponent implements OnInit {
   addCreditCardForm = new FormGroup({
-    name: new FormControl(''),
-    number: new FormControl(''),
-    limit: new FormControl('')
+    name: new FormControl('', Validators.required),
+    number: new FormControl('', Validators.required),
+    limit: new FormControl('', Validators.required)
   });
   nameError = '';
   constructor(private addCreditCardService: AddCreditCardService, private errorSnackBar: MatSnackBar) { }
@@ -31,9 +31,12 @@ export class AddCreditCardComponent implements OnInit {
           if (httpErrorResponse.error.error === 'apierror' && httpErrorResponse.error.subErrors.length > 0) {
             console.error('error', httpErrorResponse);
             for (let subError of httpErrorResponse.error.subErrors) {
-              
+              this.addCreditCardForm.controls[subError.field]
+                .setErrors({
+                  message: subError.message,
+                  rejectedValue: subError.rejectedValue
+                });
             }
-            this.addCreditCardForm.controls['name'].setErrors({ 'incorrect': true });
           } else {
             this.errorSnackBar.open('Communication error.', 'Try again', { duration: 2500 });
             console.error('error', httpErrorResponse);

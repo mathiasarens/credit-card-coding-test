@@ -1,4 +1,4 @@
-package de.arens.publics.sapient.validator;
+package de.arens.publics.sapient.validaton;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

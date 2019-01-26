@@ -46,6 +46,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CreditCardControllerTests {
 
+    public static final String FIELD_ERROR = "error";
+    public static final String FIELD_MESSAGE = "message";
+    public static final String FIELD_SUB_ERRORS = "subErrors";
+    public static final String FIELD_OBJECT = "object";
+    public static final String FIELD_FIELD = "field";
+    public static final String FIELD_REJECTED_VALUE = "rejectedValue";
     private final Logger logger = LoggerFactory.getLogger(CreditCardControllerTests.class);
 
     @Autowired
@@ -74,14 +80,14 @@ public class CreditCardControllerTests {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"7958568664\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("BAD_REQUEST", result.getBody().get("status"));
-        assertEquals("apierror", result.getBody().get("error"));
-        assertEquals("Validation error", result.getBody().get("message"));
-        assertEquals(1, ((List) result.getBody().get("subErrors")).size());
-        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get("subErrors")).get(0);
-        assertEquals("creditCard", subError0.get("object"));
-        assertEquals("number", subError0.get("field"));
-        assertEquals("7958568664", subError0.get("rejectedValue"));
-        assertEquals("Please provide a credit card number with 16 to 19 digits", subError0.get("message"));
+        assertEquals("apierror", result.getBody().get(FIELD_ERROR));
+        assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
+        assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
+        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get(FIELD_SUB_ERRORS)).get(0);
+        assertEquals("creditCard", subError0.get(FIELD_OBJECT));
+        assertEquals("number", subError0.get(FIELD_FIELD));
+        assertEquals("7958568664", subError0.get(FIELD_REJECTED_VALUE));
+        assertEquals("Please provide a credit card number with 16 to 19 digits", subError0.get(FIELD_MESSAGE));
     }
 
     @Test
@@ -89,14 +95,14 @@ public class CreditCardControllerTests {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"32463278821435338971\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("BAD_REQUEST", result.getBody().get("status"));
-        assertEquals("apierror", result.getBody().get("error"));
-        assertEquals("Validation error", result.getBody().get("message"));
-        assertEquals(1, ((List) result.getBody().get("subErrors")).size());
-        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get("subErrors")).get(0);
-        assertEquals("creditCard", subError0.get("object"));
-        assertEquals("number", subError0.get("field"));
-        assertEquals("32463278821435338971", subError0.get("rejectedValue"));
-        assertEquals("Please provide a credit card number with 16 to 19 digits", subError0.get("message"));
+        assertEquals("apierror", result.getBody().get(FIELD_ERROR));
+        assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
+        assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
+        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get(FIELD_SUB_ERRORS)).get(0);
+        assertEquals("creditCard", subError0.get(FIELD_OBJECT));
+        assertEquals("number", subError0.get(FIELD_FIELD));
+        assertEquals("32463278821435338971", subError0.get(FIELD_REJECTED_VALUE));
+        assertEquals("Please provide a credit card number with 16 to 19 digits", subError0.get(FIELD_MESSAGE));
     }
 
     @Test
@@ -104,14 +110,14 @@ public class CreditCardControllerTests {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"3768195404959997841\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("BAD_REQUEST", result.getBody().get("status"));
-        assertEquals("apierror", result.getBody().get("error"));
-        assertEquals("Validation error", result.getBody().get("message"));
-        assertEquals(1, ((List) result.getBody().get("subErrors")).size());
-        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get("subErrors")).get(0);
-        assertEquals("creditCard", subError0.get("object"));
-        assertEquals("number", subError0.get("field"));
-        assertEquals("3768195404959997841", subError0.get("rejectedValue"));
-        assertEquals("Invalid credit card number", subError0.get("message"));
+        assertEquals("apierror", result.getBody().get(FIELD_ERROR));
+        assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
+        assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
+        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get(FIELD_SUB_ERRORS)).get(0);
+        assertEquals("creditCard", subError0.get(FIELD_OBJECT));
+        assertEquals("number", subError0.get(FIELD_FIELD));
+        assertEquals("3768195404959997841", subError0.get(FIELD_REJECTED_VALUE));
+        assertEquals("Invalid credit card number", subError0.get(FIELD_MESSAGE));
     }
 
     @Test
