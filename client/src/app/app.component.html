@@ -1,13 +1,17 @@
 
 <header>
-  <mat-toolbar color="primary">{{title}}</mat-toolbar>
+  <mat-toolbar color="primary">
+    <span>{{title}}</span>
+    <button mat-flat-button color="primary" routerLink="/list">Overview</button>
+    <button mat-flat-button color="primary" routerLink="/add">Add</button>
+  </mat-toolbar>
 </header>
 
-<div class="container" fxLayout="column" fxLayoutGap="0.5%" fxLayoutWrap fxLayoutAlign="center">
-<app-addcreditcard></app-addcreditcard>
+<div class="container" fxLayout="column" fxLayoutGap="3rem" fxLayoutAlign="center">
+  <router-outlet></router-outlet>
 </div>
 
 <footer></footer>
 
 
-<router-outlet></router-outlet>
+

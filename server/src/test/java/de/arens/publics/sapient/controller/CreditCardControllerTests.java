@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static de.arens.publics.sapient.controller.CreditCardController.CREDIT_CARD_URL;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -46,6 +46,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CreditCardControllerTests {
 
+    public static final String FIELD_STATUS = "status";
     public static final String FIELD_ERROR = "error";
     public static final String FIELD_MESSAGE = "message";
     public static final String FIELD_SUB_ERRORS = "subErrors";
@@ -69,17 +70,17 @@ public class CreditCardControllerTests {
     public void postWithCorrectDataShouldReturnEntity() throws Exception {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"3768195404959997840\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals(1,result.getBody().get("id"));
-        assertEquals("3768195404959997840",result.getBody().get("number"));
-        assertEquals(0.0,result.getBody().get("balance"));
-        assertEquals(2000.0,result.getBody().get("limit"));
+        assertTrue(result.getBody().get("id") instanceof  Integer);
+        assertEquals("3768195404959997840", result.getBody().get("number"));
+        assertEquals(0.0, result.getBody().get("balance"));
+        assertEquals(2000.0, result.getBody().get("limit"));
     }
 
     @Test
     public void postWith15DigitsCreditCardNumberShouldReturnError() throws Exception {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"7958568664\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-        assertEquals("BAD_REQUEST", result.getBody().get("status"));
+        assertEquals("BAD_REQUEST", result.getBody().get(FIELD_STATUS));
         assertEquals("apierror", result.getBody().get(FIELD_ERROR));
         assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
         assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
@@ -94,7 +95,7 @@ public class CreditCardControllerTests {
     public void postWith20DigitsCreditCardNumberShouldReturnError() throws Exception {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"32463278821435338971\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-        assertEquals("BAD_REQUEST", result.getBody().get("status"));
+        assertEquals("BAD_REQUEST", result.getBody().get(FIELD_STATUS));
         assertEquals("apierror", result.getBody().get(FIELD_ERROR));
         assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
         assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
@@ -109,7 +110,7 @@ public class CreditCardControllerTests {
     public void postWithInvalidCreditCardNumberShouldReturnError() throws Exception {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"3768195404959997841\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-        assertEquals("BAD_REQUEST", result.getBody().get("status"));
+        assertEquals("BAD_REQUEST", result.getBody().get(FIELD_STATUS));
         assertEquals("apierror", result.getBody().get(FIELD_ERROR));
         assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
         assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
@@ -121,9 +122,39 @@ public class CreditCardControllerTests {
     }
 
     @Test
+    public void postCreditCardNumberTwiceShouldReturnDuplicateCreditCardError() throws Exception {
+        post("{\"name\":\"Steven\",\"number\":\"3768195404959997840\",\"limit\":\"2000\"}");
+        final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Frank\",\"number\":\"3768195404959997840\",\"limit\":\"1000\"}");
+        assertEquals("BAD_REQUEST", result.getBody().get(FIELD_STATUS));
+        assertEquals("apierror", result.getBody().get(FIELD_ERROR));
+        assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
+        assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
+        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get(FIELD_SUB_ERRORS)).get(0);
+        assertEquals("creditCard", subError0.get(FIELD_OBJECT));
+        assertEquals("number", subError0.get(FIELD_FIELD));
+        assertEquals("3768195404959997840", subError0.get(FIELD_REJECTED_VALUE));
+        assertEquals("A credit card with that number already exists", subError0.get(FIELD_MESSAGE));
+    }
+
+    @Test
+    public void postCreditCardNameTwiceShouldReturnDuplicateCreditCardError() throws Exception {
+        post("{\"name\":\"Steven\",\"number\":\"3768195404959997840\",\"limit\":\"2000\"}");
+        final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Steven\",\"number\":\"4338849695480851429\",\"limit\":\"1000\"}");
+        assertEquals("BAD_REQUEST", result.getBody().get(FIELD_STATUS));
+        assertEquals("apierror", result.getBody().get(FIELD_ERROR));
+        assertEquals("Validation error", result.getBody().get(FIELD_MESSAGE));
+        assertEquals(1, ((List) result.getBody().get(FIELD_SUB_ERRORS)).size());
+        final Map<String, Object> subError0 = (Map) ((List) result.getBody().get(FIELD_SUB_ERRORS)).get(0);
+        assertEquals("creditCard", subError0.get(FIELD_OBJECT));
+        assertEquals("name", subError0.get(FIELD_FIELD));
+        assertEquals("Steven", subError0.get(FIELD_REJECTED_VALUE));
+        assertEquals("A credit card with that name already exists", subError0.get(FIELD_MESSAGE));
+    }
+
+    @Test
     public void getCreditCardShouldReturnAllCreditCards() throws Exception {
         post("{\"name\":\"Alice\",\"number\":\"3768195404959997840\",\"limit\":\"2000\"}");
-        post("{\"name\":\"Bob\",\"number\":\"4338849695480851429\",\"limit\":\"2000\"}");
+        post("{\"name\":\"Bob\",\"number\":\"4338849695480851429\",\"limit\":\"1000\"}");
         final ResponseEntity<List<CreditCard>> result = get();
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(2, result.getBody().size());
@@ -135,15 +166,16 @@ public class CreditCardControllerTests {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON_UTF8);
         headers.setAccept(Collections.singletonList(APPLICATION_JSON_UTF8));
-        final HttpEntity<String> httpEntity =  new HttpEntity<>(headers);
-        return template.exchange(CREDIT_CARD_URL, GET, httpEntity, new ParameterizedTypeReference<List<CreditCard>>(){});
+        final HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+        return template.exchange(CREDIT_CARD_URL, GET, httpEntity, new ParameterizedTypeReference<List<CreditCard>>() {
+        });
     }
 
     private ResponseEntity<Map<String, Object>> post(final String content) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON_UTF8);
         headers.setAccept(Collections.singletonList(APPLICATION_JSON_UTF8));
-        final HttpEntity<String> httpEntity =  new HttpEntity<>(content, headers);
+        final HttpEntity<String> httpEntity = new HttpEntity<>(content, headers);
         return template.exchange(CREDIT_CARD_URL, POST, httpEntity, new ParameterizedTypeReference<Map<String, Object>>() {
         });
     }

@@ -34,7 +34,7 @@ public class ApiError {
         timestamp = LocalDateTime.now();
     }
 
-    ApiError(HttpStatus status) {
+    public ApiError(HttpStatus status) {
         this();
         this.status = status;
     }
@@ -60,7 +60,7 @@ public class ApiError {
         subErrors.add(subError);
     }
 
-    private void addValidationError(String object, String field, Object rejectedValue, String message) {
+    public void addValidationError(String object, String field, Object rejectedValue, String message) {
         addSubError(new ApiValidationError(object, field, rejectedValue, message));
     }
 

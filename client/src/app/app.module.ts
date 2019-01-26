@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddCreditCardComponent } from './addcreditcard/addcreditcard.component';
+import { AddCreditCardComponent } from './add-credit-card/add-credit-card.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,13 +14,16 @@ import { MatInputModule, MatButtonModule, MatSnackBarModule } from '@angular/mat
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AddCreditCardService } from './addcreditcard/addcreditcard.service';
-
+import { AddCreditCardService } from './add-credit-card/add-credit-card.service';
+import { ListCreditCardsComponent } from './list-credit-cards/list-credit-cards.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddCreditCardComponent
+    AddCreditCardComponent,
+    ListCreditCardsComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

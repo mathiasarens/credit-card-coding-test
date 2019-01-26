@@ -34,8 +34,7 @@ public class CreditCardResponseEntityExceptionHandler extends ResponseEntityExce
         return buildResponseEntity(apiError);
     }
 
-
-    private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
+    private ResponseEntity<Object> buildResponseEntity(final ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

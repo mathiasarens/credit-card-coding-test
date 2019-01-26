@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AddCreditCardService } from './addcreditcard.service';
+import { AddCreditCardService } from './add-credit-card.service';
 import { CreditCard } from '../creditcard';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'app-addcreditcard',
-  templateUrl: './addcreditcard.component.html',
-  styleUrls: ['./addcreditcard.component.scss']
+  selector: 'app-add-credit-card',
+  templateUrl: './add-credit-card.component.html',
+  styleUrls: ['./add-credit-card.component.scss']
 })
 export class AddCreditCardComponent implements OnInit {
   addCreditCardForm = new FormGroup({
@@ -15,17 +15,22 @@ export class AddCreditCardComponent implements OnInit {
     number: new FormControl('', Validators.required),
     limit: new FormControl('', Validators.required)
   });
-  nameError = '';
+
   constructor(private addCreditCardService: AddCreditCardService, private errorSnackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
+    if (this.addCreditCardForm.invalid) {
+      return;
+    }
     this.addCreditCardService.addCreditCard(new CreditCard(this.addCreditCardForm.value))
       .subscribe(
         response => {
-          console.log('response', response.body);
+          this.addCreditCardForm.reset();
+          this.addCreditCardForm.markAsUntouched();
+          this.addCreditCardForm.markAsPristine();
         },
         httpErrorResponse => {
           if (httpErrorResponse.error.error === 'apierror' && httpErrorResponse.error.subErrors.length > 0) {
@@ -42,5 +47,17 @@ export class AddCreditCardComponent implements OnInit {
             console.error('error', httpErrorResponse);
           }
         });
+  }
+
+  get name() {
+    return this.addCreditCardForm.get('name');
+  }
+
+  get number() {
+    return this.addCreditCardForm.get('number');
+  }
+
+  get limit() {
+    return this.addCreditCardForm.get('limit');
   }
 }
