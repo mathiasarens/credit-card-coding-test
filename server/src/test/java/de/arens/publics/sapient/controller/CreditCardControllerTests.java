@@ -77,6 +77,12 @@ public class CreditCardControllerTests {
     }
 
     @Test
+    public void postShouldReturnCorsHeader() throws Exception {
+        final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"3768195404959997840\",\"limit\":\"2000\"}");
+        assertEquals("*", result.getHeaders().getAccessControlAllowOrigin());
+    }
+
+    @Test
     public void postWith15DigitsCreditCardNumberShouldReturnError() throws Exception {
         final ResponseEntity<Map<String, Object>> result = post("{\"name\":\"Alice\",\"number\":\"7958568664\",\"limit\":\"2000\"}");
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
@@ -162,10 +168,18 @@ public class CreditCardControllerTests {
         assertEquals("Bob", result.getBody().get(1).getName());
     }
 
+    @Test
+    public void getCreditCardShouldReturnCorsHeader() throws Exception {
+        final ResponseEntity<List<CreditCard>> result = get();
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("*", result.getHeaders().getAccessControlAllowOrigin());
+    }
+
     private ResponseEntity<List<CreditCard>> get() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON_UTF8);
         headers.setAccept(Collections.singletonList(APPLICATION_JSON_UTF8));
+        headers.setOrigin("https://localhost:9000");
         final HttpEntity<String> httpEntity = new HttpEntity<>(headers);
         return template.exchange(CREDIT_CARD_URL, GET, httpEntity, new ParameterizedTypeReference<List<CreditCard>>() {
         });
@@ -175,6 +189,7 @@ public class CreditCardControllerTests {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON_UTF8);
         headers.setAccept(Collections.singletonList(APPLICATION_JSON_UTF8));
+        headers.setOrigin("https://localhost:9000");
         final HttpEntity<String> httpEntity = new HttpEntity<>(content, headers);
         return template.exchange(CREDIT_CARD_URL, POST, httpEntity, new ParameterizedTypeReference<Map<String, Object>>() {
         });

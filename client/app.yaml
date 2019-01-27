@@ -1,0 +1,9 @@
+runtime: python37
+handlers:
+  - url: /(.*\.(js|map|css|png))$
+    static_files: client/\1
+    upload: client/.*\.(js|map|css|png)$
+
+  - url: .*
+    static_files: client/index.html
+    upload: client/index.html

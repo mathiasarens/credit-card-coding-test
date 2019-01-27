@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "gcp-deploy": "ng build --prod && cp app.yaml dist/ && cd dist && gcloud app deploy && cd .."
   },
   "private": true,
   "dependencies": {

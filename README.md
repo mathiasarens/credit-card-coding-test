@@ -20,11 +20,11 @@ npm install -g @angular/cli
 ### Run Server
 ```bash
 cd server
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=3000
 ```
 
 ### Run Client
 ```bash
 cd client
-ng serve —-proxy-config proxy.conf.json --open
+ng serve --open
 ```

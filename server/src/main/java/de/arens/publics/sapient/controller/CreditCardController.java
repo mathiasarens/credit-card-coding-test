@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+@CrossOrigin(origins = {"*"})
 @RestController
 public class CreditCardController {
 
@@ -45,8 +46,7 @@ public class CreditCardController {
 
     @GetMapping(value = CREDIT_CARD_URL, produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<CreditCard> list() {
-        Iterable<CreditCard> all = creditCardRepository.findAll();
-        return all;
+        return creditCardRepository.findAll();
     }
 
     private ResponseEntity<?> buildErrorResponseEntity(final String field, final String rejectedValue, final String message) {

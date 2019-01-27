@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angul
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { CreditCard } from '../creditcard.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ListCreditCardsService {
@@ -11,6 +12,6 @@ export class ListCreditCardsService {
     constructor(private http: HttpClient) { }
 
     listCreditCards(): Observable<CreditCard[]> {
-        return this.http.get<CreditCard[]>(this.url);
+        return this.http.get<CreditCard[]>(environment.apiUrl + this.url);
     }
 }
