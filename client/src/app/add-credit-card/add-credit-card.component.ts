@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddCreditCardService } from './add-credit-card.service';
-import { CreditCard } from '../creditcard';
+import { CreditCardImpl } from '../creditcard.impl';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
@@ -16,7 +17,7 @@ export class AddCreditCardComponent implements OnInit {
     limit: new FormControl('', Validators.required)
   });
 
-  constructor(private addCreditCardService: AddCreditCardService, private errorSnackBar: MatSnackBar) { }
+  constructor(private addCreditCardService: AddCreditCardService, private errorSnackBar: MatSnackBar, private router:Router) { }
 
   ngOnInit() {
   }
@@ -25,12 +26,10 @@ export class AddCreditCardComponent implements OnInit {
     if (this.addCreditCardForm.invalid) {
       return;
     }
-    this.addCreditCardService.addCreditCard(new CreditCard(this.addCreditCardForm.value))
+    this.addCreditCardService.addCreditCard(new CreditCardImpl(this.addCreditCardForm.value))
       .subscribe(
         response => {
-          this.addCreditCardForm.reset();
-          this.addCreditCardForm.markAsUntouched();
-          this.addCreditCardForm.markAsPristine();
+          this.router.navigate(['/list']);
         },
         httpErrorResponse => {
           if (httpErrorResponse.error.error === 'apierror' && httpErrorResponse.error.subErrors.length > 0) {

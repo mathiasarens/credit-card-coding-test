@@ -1,4 +1,6 @@
-export class CreditCard {
+import { CreditCard } from './creditcard.interface';
+
+export class CreditCardImpl implements CreditCard {
   public constructor(init?: Partial<CreditCard>) {
     Object.assign(this, init);
   }

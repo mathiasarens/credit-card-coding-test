@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { CreditCard } from '../creditcard';
+import { CreditCardImpl } from '../creditcard.impl';
 
 @Injectable()
 export class AddCreditCardService {
@@ -10,7 +10,7 @@ export class AddCreditCardService {
 
     constructor(private http: HttpClient) { }
 
-    addCreditCard(creditCard: CreditCard): Observable<HttpResponse<Object>> {
+    addCreditCard(creditCard: CreditCardImpl): Observable<HttpResponse<Object>> {
         return this.http.post(this.url, creditCard, {
             headers: new HttpHeaders({
                 'Content-Type':  'application/json'
