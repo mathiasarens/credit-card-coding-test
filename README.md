@@ -1,9 +1,7 @@
 ## Credit Card Demo Application
 Simple Credit Card Management Application
 
-<video src="screencast.mp4" controls>
-  Your browser cannot show this video. Please view it on <a href="https://www.useloom.com/share/3d37aae7f11e4fb8959c3ffac630fb58">loom</a>.
-</video>
+![ScreenCast](screencast.gif)
 
 ### Prerequsites
 1. The latest versions of **Java8**, **Maven** and **NodeJs** must be installed on your system. 
