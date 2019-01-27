@@ -1,6 +1,8 @@
 ## Credit Card Demo Application
 Simple Credit Card Management Application
 
+[Live Demo on Google Cloud Platform](https://credit-card-system-client-1.appspot.com)
+
 ![ScreenCast](screencast.gif)
 
 ### Prerequsites
