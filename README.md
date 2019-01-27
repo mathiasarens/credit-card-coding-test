@@ -6,7 +6,7 @@ Simple Credit Card Management Application
 ### Prerequsites
 1. The latest versions of **Java8**, **Maven** and **NodeJs** must be installed on your system. 
     
-    For Homebrew users use:
+    Homebrew users use:
     ```bash
     brew cask install java8
     brew install maven
